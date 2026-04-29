@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/layout :: header}"></div>
+</head>
+
+<body>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Browse Skills Marketplace</h2>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <th:block th:each="skill : ${skills}">
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 bg-light">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h4 class="card-title text-primary fw-bold" th:text="${skill.name}">Skill Name</h4>
+                                <span class="badge bg-info" th:if="${skill.type.name() == 'TEACH'}">Teaching</span>
+                                <span class="badge bg-warning text-dark"
+                                    th:if="${skill.type.name() == 'LEARN'}">Learning</span>
+                            </div>
+                            <p class="card-text mb-1 text-muted">User: <strong class="text-dark"
+                                    th:text="${skill.user.name}">User Name</strong></p>
+                            <p class="card-text text-muted mb-3">Email: <a th:href="'mailto:' + ${skill.user.email}"
+                                    th:text="${skill.user.email}">user@example.com</a></p>
+
+                            <a th:href="'mailto:' + ${skill.user.email} + '?subject=SkillSwap Inquiry: ' + ${skill.name}"
+                                class="btn btn-sm btn-outline-primary d-block">Contact User</a>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+
+            <div class="col-12" th:if="${skills.isEmpty()}">
+                <div class="alert alert-info text-center">
+                    No skills are available from other users right now. Be the first to add some!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+
+</html>
